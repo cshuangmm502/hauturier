@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="db95d7bb-6fce-4e5e-9c25-547f4a7422f3" name="120.27.219.164" url="http://120.27.219.164">
+        <fileTransfer host="120.27.219.164" port="22" rootFolder="/root/dev/go/src/github.com/hauturier.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
