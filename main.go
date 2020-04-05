@@ -3,6 +3,8 @@ package main
 import (
 	"hauturier/sdkInit"
 	"hauturier/service"
+	"hauturier/web"
+	"hauturier/web/controller"
 )
 import "fmt"
 import "os"
@@ -56,11 +58,23 @@ func main(){
 		ChaincodeID:"TestCC",
 		Client:channelClient,
 	}
-	msg,err := serviceSetup.QueryInfo("hello")
+
+	msg,err := serviceSetup.SetInfo("hello","motherfuck")
 	if err!=nil {
 		fmt.Println(err)
 	}else {
 		fmt.Println(msg)
 	}
+	msg,err = serviceSetup.QueryInfo("hello")
+	if err!=nil {
+		fmt.Println(err)
+	}else {
+		fmt.Println(msg)
+	}
+
+	app := controller.Application{
+		Fabric:&serviceSetup,
+	}
+	web.WebStart(&app)
 }
 

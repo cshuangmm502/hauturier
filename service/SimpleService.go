@@ -10,3 +10,20 @@ func (t *ServiceSetup)QueryInfo(key string) (string,error) {
 	}
 	return string(response.Payload),nil
 }
+
+func (t *ServiceSetup)SetInfo(key,value string) (string,error){
+	eventID := "eventInfo"
+	reg,notifier := registerEvent(t.Client,t.ChaincodeID,eventID)
+	defer t.Client.UnregisterChaincodeEvent(reg)
+
+	req := channel.Request{ChaincodeID:t.ChaincodeID,Fcn:"set",Args:[][]byte{[]byte(key),[]byte(value),[]byte(eventID)}}
+	response,err :=t.Client.Execute(req)
+	if err!=nil{
+		return "",err
+	}
+	err = evenResult(notifier,eventID)
+	if err!=nil{
+		return "",err
+	}
+	return string(response.TransactionID),nil
+}
