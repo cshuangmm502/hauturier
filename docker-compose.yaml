@@ -56,9 +56,24 @@ services:
       default:
         aliases:
           - ca.hauturier.com
-          
+
+  couchdb0:
+    container_name: couchdb0
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - "5984:5984"
+    networks:
+      - byfn
+
   peer0.org1.hauturier.com:
-    image: hyperledger/fabric-peer
+    image: hyperledger/fabric-peerag
     container_name: peer0.org1.hauturier.com
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -80,6 +95,11 @@ services:
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
       - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer0.org1.hauturier.com
+      #couchDB setting
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:
@@ -91,6 +111,7 @@ services:
       - 7053:7053
     depends_on:
       - orderer.hauturier.com
+      - couchdb0
     networks:
       default:
         aliases:
@@ -120,6 +141,11 @@ services:
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
       - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer1.org1.hauturier.com
+      #couchDB setting
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:
@@ -131,6 +157,7 @@ services:
       - 7153:7053
     depends_on:
       - orderer.hauturier.com
+      - couchdb0
     networks:
       default:
         aliases:
