@@ -21,7 +21,7 @@ func (app *Application) SetInfoView(w http.ResponseWriter, r *http.Request) {
 func (app *Application) SetInfo(w http.ResponseWriter, r *http.Request) {
 	//获取提交数据
 	key := r.FormValue("key")
-	val := r.FormValue("value")
+	val := r.FormValue("val")
 
 	//调用业务层,反序列化
 	transactionID,err := app.Fabric.SetInfo(key,val)
@@ -54,7 +54,7 @@ func (app *Application) QueryInfo(w http.ResponseWriter,r *http.Request) {
 		Msg:"",
 	}
 	if err!=nil{
-		data.Msg = "没有查询到对应信息"
+		data.Msg = "没有查询到对应信息,key:"+key
 	}else{
 		data.Msg = "查询成功:"+result
 	}

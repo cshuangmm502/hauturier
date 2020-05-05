@@ -20,6 +20,6 @@ func WebStart(app *controller.Application)  {
 
 	err := http.ListenAndServe(":9000",nil)
 	if err!=nil{
-		fmt.Println("启动web服务失败")
+		fmt.Println("启动web服务失败:%+v",err)
 	}
 }
