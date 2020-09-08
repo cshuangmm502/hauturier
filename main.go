@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
 	"hauturier/sdkInit"
 	"hauturier/service"
 	"hauturier/web"
@@ -47,13 +49,15 @@ func main(){
 	}
 	fmt.Println(channelClient)
 
-	//req := channel.Request{ChaincodeID:"TestCC",Fcn:"query",Args:[][]byte{[]byte("hello")}}
-	//response,err := channelClient.Query(req,channel.WithRetry(retry.DefaultChannelOpts))
-	//if err!=nil {
-	//	fmt.Println(err)
-	//}else {
-	//	fmt.Println(response.Payload)
-	//}
+	req := channel.Request{ChaincodeID:"TestCC",Fcn:"query",Args:[][]byte{[]byte("hello")}}
+	response,err := channelClient.Query(req,channel.WithRetry(retry.DefaultChannelOpts))
+	if err!=nil {
+		fmt.Println(err)
+	}else {
+		fmt.Println(response.Payload)
+	}
+
+	//web层
 	serviceSetup := service.ServiceSetup{
 		ChaincodeID:"TestCC",
 		Client:channelClient,

@@ -75,6 +75,7 @@ services:
     image: hyperledger/fabric-peer
     container_name: peer0.org1.hauturier.com
     environment:
+      - GODEBUG=netdns=go
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_LOGGING_SPEC=DEBUG
@@ -121,6 +122,7 @@ services:
     image: hyperledger/fabric-peer
     container_name: peer1.org1.hauturier.com
     environment:
+      - GODEBUG=netdns=go
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_LOGGING_SPEC=DEBUG
